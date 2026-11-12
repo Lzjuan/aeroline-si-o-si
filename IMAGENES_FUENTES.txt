@@ -1,0 +1,5 @@
+Desire Airways — imágenes de destinos
+
+Las imágenes locales de esta demo fueron obtenidas de páginas públicas de viajes/turismo mediante búsqueda web. Antes de usar el proyecto comercialmente, verifica la licencia de cada fotografía y reemplaza las que no tengan permiso comercial. Algunas fuentes son Pexels/Unsplash/Wikimedia o sitios turísticos; otras son imágenes editoriales de terceros.
+
+El proyecto es una demostración ficticia y no representa una aerolínea real.

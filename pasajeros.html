@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datos del pasajero | Desire Airways</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><img src="assets/logo.jpg" alt="Desire Airways"></span>
+        <span class="brand-text">
+          <span class="brand-name">Desire<em>Airways</em></span>
+          <span class="brand-tagline">Donde tus historias despegan</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a href="mis-reservas.html" class="link-quiet">Mis reservas</a>
+        <a href="tel:+573127256102" class="btn btn-primary btn-small">☎ Soporte</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section booking-flow-section">
+      <div class="container">
+        <ol class="stepper-progress" aria-label="Progreso de la reserva">
+          <li class="is-done">Vuelo</li>
+          <li class="is-done">Detalle</li>
+          <li class="is-done">Asiento</li>
+          <li class="is-active">Pasajeros</li>
+          <li>Extras</li>
+          <li>Pago</li>
+        </ol>
+
+        <div class="flow-layout">
+          <div class="card-panel">
+            <p class="eyebrow">Paso 4 de 6</p>
+            <h1 class="section-title">Datos del pasajero</h1>
+            <p class="section-lead">Ingresa los datos tal como aparecen en el documento de viaje.</p>
+
+            <form id="passenger-form" novalidate>
+              <div id="passenger-list" class="passenger-list"></div>
+              <p id="passenger-form-error" class="form-error" role="alert" aria-live="polite"></p>
+              <div class="form-actions-row">
+                <a href="asientos.html" class="btn btn-ghost">Volver a asiento</a>
+                <button type="submit" class="btn btn-primary btn-large">Continuar a extras →</button>
+              </div>
+            </form>
+          </div>
+
+          <aside class="flow-sidebar">
+            <div class="summary-card">
+              <h3>Resumen del viaje</h3>
+              <div id="passenger-flight-summary">Cargando…</div>
+              <div class="summary-divider"></div>
+              <div class="summary-row"><span>Asiento</span><span id="passenger-seat-summary">—</span></div>
+              <div class="summary-row"><span>Pasajeros</span><span id="passenger-count-summary">—</span></div>
+              <div class="summary-divider"></div>
+              <a href="tel:+573127256102" class="support-card">☎ ¿Necesitas ayuda? <strong>+57 312 725 6102</strong></a>
+              <p class="summary-note">Tu información se guarda localmente para continuar con la reserva.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>© 2026 Desire Airways. Aerolínea ficticia con fines demostrativos. Todos los vuelos, precios y datos son simulados.</p>
+    </div>
+  </footer>
+
+  <script src="vuelos.js"></script>
+  <script src="reservas.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const vuelo = leerEstado(RESERVAS_KEYS.vuelo);
+      const asiento = leerEstado(RESERVAS_KEYS.asiento);
+      const asientos = normalizarAsientosSeleccionados(asiento);
+      const busqueda = leerEstado(RESERVAS_KEYS.busqueda) || {};
+      const form = document.getElementById('passenger-form');
+      const list = document.getElementById('passenger-list');
+      const errorBox = document.getElementById('passenger-form-error');
+
+      if (!vuelo || asientos.length === 0) {
+        window.location.href = 'asientos.html';
+        return;
+      }
+
+      const adultos = Math.max(1, Number(busqueda.adultos ?? busqueda.adults ?? 1));
+      const ninos = Math.max(0, Number(busqueda.ninos ?? busqueda.children ?? 0));
+      const bebes = Math.max(0, Number(busqueda.bebes ?? busqueda.infants ?? 0));
+      const totalPasajeros = adultos + ninos + bebes;
+      const pasajerosConAsiento = adultos + ninos;
+      if (asientos.length < pasajerosConAsiento) {
+        window.location.href = 'asientos.html';
+        return;
+      }
+
+      document.getElementById('passenger-count-summary').textContent = `${totalPasajeros} ${totalPasajeros === 1 ? 'pasajero' : 'pasajeros'}`;
+      document.getElementById('passenger-seat-summary').textContent = asientos.map(item => item.codigo).join(', ') || '—';
+      document.getElementById('passenger-flight-summary').innerHTML = `<strong>${vuelo.id}</strong><br>${buscarAeropuerto(vuelo.origen).ciudad} → ${buscarAeropuerto(vuelo.destino).ciudad}`;
+
+      const guardados = leerEstado(RESERVAS_KEYS.pasajeros) || [];
+      const tipos = [];
+      for (let i = 0; i < adultos; i++) tipos.push('Adulto');
+      for (let i = 0; i < ninos; i++) tipos.push('Niño');
+      for (let i = 0; i < bebes; i++) tipos.push('Bebé');
+
+      list.innerHTML = tipos.map((tipo, index) => {
+        const p = guardados[index] || {};
+        const nacimiento = p.fechaNacimiento || '';
+        const esBebe = tipo === 'Bebé';
+        const etiquetaDocumento = tipo === 'Adulto' ? 'Cédula' : tipo === 'Niño' ? 'Tarjeta de identidad' : 'Documento del acompañante';
+        return `
+          <fieldset class="passenger-card">
+            <legend>Pasajero ${index + 1} · ${tipo}</legend>
+            <div class="passenger-grid">
+              <div class="field">
+                <label for="nombre-${index}">Nombre</label>
+                <input id="nombre-${index}" name="nombre-${index}" value="${escapeHtml(p.nombre || '')}" autocomplete="given-name" required>
+              </div>
+              <div class="field">
+                <label for="apellido-${index}">Apellido</label>
+                <input id="apellido-${index}" name="apellido-${index}" value="${escapeHtml(p.apellido || '')}" autocomplete="family-name" required>
+              </div>
+              <div class="field">
+                <label for="correo-${index}">Correo</label>
+                <input id="correo-${index}" name="correo-${index}" type="email" value="${escapeHtml(p.correo || '')}" autocomplete="email" required>
+              </div>
+              ${esBebe ? '' : `
+              <div class="field">
+                <label for="documento-${index}">${etiquetaDocumento}</label>
+                <input id="documento-${index}" name="documento-${index}" inputmode="numeric" value="${escapeHtml(p.documento || '')}" autocomplete="off" required>
+              </div>
+              `}
+              <div class="field">
+                <label for="fecha-${index}">Fecha de nacimiento</label>
+                <input id="fecha-${index}" name="fecha-${index}" type="date" value="${escapeHtml(nacimiento)}" required>
+              </div>
+            </div>
+          </fieldset>`;
+      }).join('');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        errorBox.textContent = '';
+
+        // IMPORTANTE: FormData recibe aquí el elemento <form> real,
+        // evitando el TypeError que aparecía en la versión anterior.
+        const datos = new FormData(event.currentTarget);
+        const pasajeros = tipos.map((tipo, index) => ({
+          tipo,
+          nombre: String(datos.get(`nombre-${index}`) || '').trim(),
+          apellido: String(datos.get(`apellido-${index}`) || '').trim(),
+          correo: String(datos.get(`correo-${index}`) || '').trim(),
+          documento: String(datos.get(`documento-${index}`) || '').trim(),
+          fechaNacimiento: String(datos.get(`fecha-${index}`) || '')
+        }));
+
+        const incompleto = pasajeros.some(p => {
+          if (!p.nombre || !p.apellido || !p.correo || !p.fechaNacimiento) return true;
+          if (p.tipo === 'Bebé') return false;
+          return !p.documento;
+        });
+        const correoValido = pasajeros.every(p => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.correo));
+        if (incompleto) {
+          errorBox.textContent = 'Completa todos los campos obligatorios de cada pasajero para continuar.';
+          return;
+        }
+        if (!correoValido) {
+          errorBox.textContent = 'Revisa que los correos electrónicos tengan un formato válido.';
+          return;
+        }
+
+        guardarEstado(RESERVAS_KEYS.pasajeros, pasajeros);
+        window.location.href = 'extra.html';
+      });
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+      }
+    });
+  </script>
+</body>
+</html>

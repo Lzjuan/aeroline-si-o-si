@@ -1,0 +1,20 @@
+FOTOS DE DESTINOS — DESIRE AIRWAYS
+
+Tarjetas destacadas de la página principal (index.html): se generan desde script.js, función imagenDestinoGlobal(codigo).
+Tarjetas de la galería completa: destinos.html, busca el comentario “FOTO DESTINO” justo encima de cada imagen.
+
+Fotos que debes añadir dentro de la carpeta assets/ con estos nombres:
+- dest-mde.jpg — Medellín
+- dest-clo.jpg — Cali
+- dest-smr.jpg — Santa Marta
+- dest-bga.jpg — Bucaramanga
+- dest-cun.jpg — Cancún
+- dest-mad.jpg — Madrid
+- dest-lhr.jpg — Londres
+- dest-bcn.jpg — Barcelona
+- dest-lis.jpg — Lisboa
+- dest-bkk.jpg — Bangkok
+- dest-syd.jpg="" — Sídney
+- dest-mel.jpg — Melbourne
+
+Las tarjetas conservan su contenido y diseño. Solo debes poner la foto en assets/ con el nombre correspondiente, o cambiar el valor del atributo src en destinos.html y el nombre asociado al código en script.js.

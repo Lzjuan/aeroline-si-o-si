@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle del vuelo | Desire Airways</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><img src="assets/logo.jpg" alt="Desire Airways"></span>
+        <span class="brand-text">
+          <span class="brand-name">Desire<em>Airways</em></span>
+          <span class="brand-tagline">Donde tus historias despegan</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a href="mis-reservas.html" class="link-quiet">Mis reservas</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section booking-flow-section">
+      <div class="container">
+        <ol class="stepper-progress" aria-label="Progreso de la reserva">
+          <li class="is-done">Vuelo</li>
+          <li class="is-active">Detalle</li>
+          <li>Asiento</li>
+          <li>Pasajeros</li>
+          <li>Extras</li>
+          <li>Pago</li>
+        </ol>
+
+        <div class="flow-layout" id="vuelo-detalle-layout">
+          <!-- Generado por script.js a partir del vuelo guardado en localStorage -->
+          <div class="skeleton" style="height:360px; border-radius:16px;"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>© 2026 Desire Airways. Aerolínea ficticia con fines demostrativos. Todos los vuelos, precios y datos son simulados.</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script src="vuelos.js"></script>
+  <script src="reservas.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

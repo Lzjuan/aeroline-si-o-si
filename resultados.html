@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados de búsqueda | Desire Airways</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"><img src="assets/logo.jpg" alt="Desire Airways"></span>
+        <span class="brand-text">
+          <span class="brand-name">Desire<em>Airways</em></span>
+          <span class="brand-tagline">Donde tus historias despegan</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a href="index.html#buscador" class="btn btn-ghost">Nueva búsqueda</a>
+        <a href="mis-reservas.html" class="link-quiet">Mis reservas</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="results-summary">
+      <div class="container">
+        <div class="results-summary-inner" id="results-summary">
+          <!-- Generado por script.js: ruta, fecha, pasajeros, clase -->
+        </div>
+      </div>
+    </section>
+
+    <section class="section results-section">
+      <div class="container results-layout">
+
+        <!-- ============ FILTROS ============ -->
+        <aside class="filters-panel" id="filters-panel">
+          <h3>Filtrar vuelos</h3>
+
+          <div class="filter-group">
+            <h4>Precio máximo</h4>
+            <input type="range" id="filter-price" min="0" max="0" step="10000">
+            <div class="filter-range-labels">
+              <span>Desde $0</span>
+              <span id="filter-price-value">Hasta $0</span>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h4>Hora de salida</h4>
+            <div class="filter-chips" id="filter-hora">
+              <button type="button" class="chip" data-hora="madrugada">00:00–06:00</button>
+              <button type="button" class="chip" data-hora="manana">06:00–12:00</button>
+              <button type="button" class="chip" data-hora="tarde">12:00–18:00</button>
+              <button type="button" class="chip" data-hora="noche">18:00–24:00</button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h4>Escalas</h4>
+            <div class="filter-chips" id="filter-escalas">
+              <button type="button" class="chip" data-escalas="directo">Directo</button>
+              <button type="button" class="chip" data-escalas="escala">Con escalas</button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h4>Duración máxima</h4>
+            <input type="range" id="filter-duration" min="0" max="0" step="15">
+            <div class="filter-range-labels">
+              <span></span>
+              <span id="filter-duration-value">Hasta 0 min</span>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-ghost btn-block btn-small" id="filters-reset">Limpiar filtros</button>
+        </aside>
+
+        <!-- ============ LISTA DE RESULTADOS ============ -->
+        <div class="results-list-wrap">
+          <div class="results-toolbar">
+            <span id="results-count">Buscando vuelos…</span>
+            <div class="sort-control">
+              <label for="sort-select">Ordenar por</label>
+              <select id="sort-select">
+                <option value="recomendado">Recomendado</option>
+                <option value="barato">Más barato</option>
+                <option value="rapido">Más rápido</option>
+                <option value="salida">Hora de salida</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flight-list" id="flight-list">
+            <!-- Skeleton inicial, reemplazado por script.js -->
+            <div class="flight-card skeleton" style="height:110px;"></div>
+            <div class="flight-card skeleton" style="height:110px;"></div>
+            <div class="flight-card skeleton" style="height:110px;"></div>
+          </div>
+
+          <div class="empty-state" id="empty-state" hidden>
+            <h3>No encontramos vuelos para esta ruta</h3>
+            <p>Prueba con otra fecha u otra ciudad de origen y destino.</p>
+            <a href="index.html#buscador" class="btn btn-primary">Volver a buscar</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>© 2026 Desire Airways. Aerolínea ficticia con fines demostrativos. Todos los vuelos, precios y datos son simulados.</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script src="vuelos.js"></script>
+  <script src="reservas.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
